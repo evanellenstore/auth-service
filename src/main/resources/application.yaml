@@ -11,5 +11,5 @@ user:
 
 
 jwt:
-  secret: R9P4zGQkN8w9Z4s8f1xH2bKZPq9nFQX5RrQ8sM1eX2A=
+  secret: 7fff9814-24fd-41ac-a715-0efdfba5db03s
   expiration: 3600000 # 1 hour
