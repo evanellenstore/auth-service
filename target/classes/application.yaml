@@ -1,0 +1,15 @@
+server:
+  port: 2040
+
+spring:
+  application:
+    name: auth-service
+
+user:
+  service:
+    url: http://localhost:2030
+
+
+jwt:
+  secret: 7fff9814-24fd-41ac-a715-0efdfba5db03s
+  expiration: 3600000 # 1 hour
