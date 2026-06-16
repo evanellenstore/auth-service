@@ -34,15 +34,32 @@ public class AuthService {
             throw new RuntimeException("User inactive");
         }
 
-        String token = jwtUtil.generateToken(
-                user.getUsername(),
-                user.getRole());
+        String token = jwtUtil.generateToken(user.getUsername(), user.getRole());
+        String refresh = jwtUtil.generateRefreshToken(user.getUsername(), user.getRole());
 
         return AuthResponse.builder()
                 .token(token)
+                .refreshToken(refresh)
                 .username(user.getUsername())
                 .role(user.getRole())
                 .build();
+    }
+
+    public AuthResponse refreshToken(String refreshToken) {
+        try {
+            Claims claims = jwtUtil.validate(refreshToken);
+            String username = claims.getSubject();
+            Object rolesClaim = claims.get("roles");
+            String role = null;
+            if (rolesClaim instanceof List<?> list && !list.isEmpty()) {
+                role = String.valueOf(list.get(0));
+            }
+            String newToken = jwtUtil.generateToken(username, role);
+            String newRefresh = jwtUtil.generateRefreshToken(username, role);
+            return AuthResponse.builder().token(newToken).refreshToken(newRefresh).username(username).role(role).build();
+        } catch (Exception e) {
+            throw new RuntimeException("Invalid refresh token");
+        }
     }
 
     public AuthValidationResponse validateToken(String token) {

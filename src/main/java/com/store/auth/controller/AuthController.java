@@ -26,6 +26,11 @@ public class AuthController {
         return service.login(request);
     }
 
+    @PostMapping("/refresh")
+    public AuthResponse refresh(@RequestBody com.store.auth.dto.RefreshRequest req) {
+        return service.refreshToken(req.getRefreshToken());
+    }
+
     @PostMapping("/validate")
     public AuthValidationResponse validate(@RequestHeader("Authorization") String token) {
         AuthValidationResponse res = service.validateToken(token.replace("Bearer ", ""));
